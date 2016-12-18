@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+  <title>Webgraph Visualization</title>
+
+  <script type="text/javascript" src="vis.js"></script>
+  <link href="vis-network.min.css" rel="stylesheet" type="text/css" />
+
+  <script src="nodes.json"></script>
+  <script src="edges.json"></script>
+
+  <style type="text/css">
+    #mynetwork {
+      width: 1500px;
+      height: 800px;
+      border: 1px solid lightgray;
+    }
+  </style>
+</head>
+<body>
+
+<div id="mynetwork">
+</div>
+
+<script type="text/javascript">
+
+  var nodes = new vis.DataSet(nodes);
+  var edges = new vis.DataSet(edges);
+
+  // create a network
+  var container = document.getElementById('mynetwork');
+  var data = {
+    nodes: nodes,
+    edges: edges
+  };
+  var options = {
+    physics: {
+      enabled: false,
+    },
+    layout: {
+      improvedLayout:false
+    },
+    nodes: {
+        shape: 'dot',
+        scaling: {
+          min: 10,
+          max: 30
+        },
+        font: {
+          size: 8,
+          face: 'Tahoma'
+        }
+      }
+  }
+
+  var clusteringOptions = {
+      joinCondition: function (nodeOptions) {
+          return nodeOptions.group === "-1";
+      }
+  }
+
+  var network = new vis.Network(container, data, options);
+  network.clustering.cluster(clusteringOptions);
+</script>
+
+</body>
+</html>
